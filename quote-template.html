@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote - Frank Foremny Jr Inc</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .quote-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .quote-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .company-info {
+            flex: 1;
+        }
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .company-details {
+            font-size: 12px;
+            line-height: 1.3;
+        }
+        .quote-title {
+            text-align: right;
+            flex: 1;
+        }
+        .quote-title h1 {
+            font-size: 36px;
+            color: #2c3e50;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .client-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .bill-to, .ship-to {
+            flex: 1;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #7f8c8d;
+        }
+        .quote-details {
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        .quote-details-row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .quote-details-label {
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            table-layout: fixed;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+            text-align: left;
+            padding: 8px;
+            vertical-align: bottom;
+        }
+        
+        th:nth-child(4) {
+            text-align: left;
+        }
+        td {
+            padding: 6px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .totals {
+            width: 300px;
+            margin-left: auto;
+        }
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+        .totals-label {
+            font-weight: bold;
+        }
+        .grand-total {
+            font-size: 18px;
+            font-weight: bold;
+            border-top: 2px solid #2c3e50;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+        .notes {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #eee;
+        }
+        .signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 5px;
+            border-top: 1px solid #eee;
+        }
+        .signature-field {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 70px;
+            margin-bottom: 10px;
+        }
+        .editable {
+            border: none;
+            background-color: transparent;
+            width: 100%;
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+        }
+        .editable:focus {
+            outline: none;
+            background-color: #f0f7ff;
+        }
+        .item-row td .editable {
+            width: 100%;
+            min-width: 50px;
+            box-sizing: border-box;
+        }
+        /* Ensure date, rate and amount columns expand properly */
+        .item-row td:nth-child(2) .editable {
+            min-width: 90px;
+            white-space: nowrap;
+        }
+        .item-row td:nth-child(6) .editable,
+        .item-row td:nth-child(7) .editable,
+        .totals-row input.editable {
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            min-width: 100px;
+            overflow: visible;
+            white-space: nowrap;
+            margin: 0 auto;
+            display: block;
+        }
+        .add-row-button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .remove-row-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .validity {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 11px;
+        }
+        .validity .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .validity p {
+            color: #666;
+            margin: 0;
+            line-height: 1.3;
+        }
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                margin: 0;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+            }
+            .quote-container {
+                box-shadow: none;
+                padding: 20px;
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            th {
+                background-color: #2c3e50 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tbody {
+                display: table-row-group;
+            }
+            tr {
+                page-break-inside: avoid;
+            }
+            .totals, .notes, .signature {
+                page-break-inside: avoid;
+            }
+            .add-row-button, .remove-row-button, .buttons-container {
+                display: none;
+            }
+            input, textarea {
+                border: none !important;
+                box-shadow: none !important;
+                outline: none !important;
+                -webkit-appearance: none !important;
+                appearance: none !important;
+                resize: none !important;
+            }
+            @page {
+                margin: 0.5in;
+                size: auto;
+            }
+            @media print {
+                @page {
+                    margin: 0.5in;
+                    size: auto;
+                }
+                body::before, body::after {
+                    content: none !important;
+                }
+            }
+            /* Hide browser headers and footers */
+            @page {
+                margin: 0.5in;
+                size: auto;
+                margin-header: 0;
+                margin-footer: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 800px; margin: 0 auto;">
+        <div class="buttons-container" style="text-align: right; margin-bottom: 20px;">
+            <button id="print-pdf" style="background-color: #2c3e50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Save as PDF</button>
+            <button id="email-quote" style="background-color: #27ae60; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Open Email</button>
+        </div>
+        <div class="quote-container">
+        <div class="quote-header">
+            <div class="company-info">
+                <div class="company-name">Frank Foremny Jr Inc</div>
+                <div class="company-details">
+                    <input type="text" class="editable" placeholder="Street Address" value="P.O. Box 283"><br>
+                    <input type="text" class="editable" placeholder="City, State ZIP" value="Goshen, NY 10924"><br>
+                    <input type="text" class="editable" placeholder="Phone" value="(845) 590-7695"><br>
+                    <input type="text" class="editable" placeholder="Email" value="frankforemnyjrinc@gmail.com">
+                </div>
+            </div>
+            <div class="quote-title">
+                <h1>QUOTE</h1>
+            </div>
+        </div>
+
+        <div class="client-info">
+            <div class="bill-to">
+                <div class="section-title">BILL TO</div>
+                <input type="text" class="editable" placeholder="Client Name" value=""><br>
+                <input type="text" class="editable" placeholder="Street Address" value=""><br>
+                <input type="text" class="editable" placeholder="City, State ZIP" value=""><br>
+                <input type="text" class="editable" placeholder="Phone" value=""><br>
+                <input type="text" class="editable" placeholder="Email" value="">
+            </div>
+            <div class="ship-to">
+                <div class="section-title">JOB NAME</div>
+                <textarea class="editable" placeholder="Description" rows="4" style="width:100%; resize:vertical;"></textarea>
+            </div>
+        </div>
+
+        <div class="quote-details">
+            <div class="quote-details-row">
+                <div>
+                    <span class="quote-details-label">Quote No:</span>
+                    <input type="text" class="editable" placeholder="Quote Number" value="">
+                </div>
+                <div>
+                    <span class="quote-details-label">Date:</span>
+                    <input type="text" class="editable" placeholder="MM/DD/YYYY" value="">
+                </div>
+                <div>
+                    <span class="quote-details-label">Valid Until:</span>
+                    <input type="text" class="editable" placeholder="MM/DD/YYYY" value="">
+                </div>
+            </div>
+        </div>
+
+        <button class="add-row-button" onclick="addRow()">Add Item</button>
+        
+        <table id="quote-items">
+            <thead>
+                <tr>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 14%">Date</th>
+                    <th style="width: 18%">Product or Service</th>
+                    <th style="width: 22%; text-align: left;">Description</th>
+                    <th style="width: 7%">Qty</th>
+                    <th style="width: 14%">Rate</th>
+                    <th style="width: 15%">Amount</th>
+                    <th style="width: 5%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="item-row">
+                    <td><input type="text" class="editable" value="1"></td>
+                    <td><input type="text" class="editable" placeholder="MM/DD/YYYY"></td>
+                    <td><input type="text" class="editable" placeholder="Product/Service"></td>
+                    <td style="vertical-align: top;"><textarea class="editable" placeholder="Description" rows="4" style="width:100%; resize:vertical;"></textarea></td>
+                    <td><input type="text" class="editable" placeholder="0" onchange="calculateRowTotal(this)"></td>
+                    <td><input type="text" class="editable" placeholder="0.00" onchange="calculateRowTotal(this)"></td>
+                    <td><input type="text" class="editable" placeholder="0.00" readonly></td>
+                    <td><button class="remove-row-button" onclick="removeRow(this)">X</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <div class="totals-row">
+                <div class="totals-label">Subtotal</div>
+                <div><input type="text" class="editable" id="subtotal" value="0.00" readonly></div>
+            </div>
+            <div class="totals-row">
+                <div class="totals-label">Tax Rate (%)</div>
+                <div><input type="text" class="editable" id="tax-rate" value="0.00" onchange="calculateTotals()"></div>
+            </div>
+            <div class="totals-row">
+                <div class="totals-label">Tax Amount</div>
+                <div><input type="text" class="editable" id="tax-amount" value="0.00" readonly></div>
+            </div>
+            <div class="totals-row grand-total">
+                <div class="totals-label">TOTAL</div>
+                <div><input type="text" class="editable" id="grand-total" value="0.00" readonly></div>
+            </div>
+        </div>
+
+        <div class="notes">
+            <div class="section-title">NOTES</div>
+            <textarea class="editable" rows="3" placeholder="Enter notes or special instructions here"></textarea>
+        </div>
+
+        <div class="signature">
+            <div class="signature-field">
+                <div class="signature-line"></div>
+                <div>Accepted Date</div>
+            </div>
+            <div class="signature-field">
+                <div class="signature-line"></div>
+                <div>Accepted By</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addRow() {
+            const table = document.getElementById('quote-items');
+            const tbody = table.querySelector('tbody');
+            const rowCount = tbody.querySelectorAll('tr').length;
+            
+            const newRow = document.createElement('tr');
+            newRow.className = 'item-row';
+            newRow.innerHTML = `
+                <td><input type="text" class="editable" value="${rowCount + 1}"></td>
+                <td><input type="text" class="editable" placeholder="MM/DD/YYYY"></td>
+                <td><input type="text" class="editable" placeholder="Product/Service"></td>
+                <td style="vertical-align: top;"><textarea class="editable" placeholder="Description" rows="3" style="width:100%; resize:vertical;"></textarea></td>
+                <td><input type="text" class="editable" placeholder="0" onchange="calculateRowTotal(this)"></td>
+                <td><input type="text" class="editable" placeholder="0.00" onchange="calculateRowTotal(this)"></td>
+                <td><input type="text" class="editable" placeholder="0.00" readonly></td>
+                <td><button class="remove-row-button" onclick="removeRow(this)">X</button></td>
+            `;
+            
+            tbody.appendChild(newRow);
+        }
+
+        function removeRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            renumberRows();
+            calculateTotals();
+        }
+
+        function renumberRows() {
+            const rows = document.querySelectorAll('#quote-items tbody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:first-child input').value = index + 1;
+            });
+        }
+
+        function formatCurrency(value) {
+            // Format as currency with $ sign and thousands separators
+            return '$' + parseFloat(value).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function parseCurrency(value) {
+            // Remove $ and any commas, then parse as float
+            return parseFloat(value.replace(/[$,]/g, '')) || 0;
+        }
+
+        function calculateRowTotal(input) {
+            const row = input.closest('tr');
+            const qty = parseFloat(row.querySelector('td:nth-child(5) input').value) || 0;
+            const rateInput = row.querySelector('td:nth-child(6) input');
+            const rate = parseCurrency(rateInput.value);
+            const amount = qty * rate;
+            
+            // Format rate with $ if it's a valid number and doesn't already have $
+            if (!isNaN(rate) && !rateInput.value.includes('$')) {
+                rateInput.value = formatCurrency(rate);
+            }
+            
+            row.querySelector('td:nth-child(7) input').value = formatCurrency(amount);
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const rows = document.querySelectorAll('#quote-items tbody tr');
+            let subtotal = 0;
+            
+            rows.forEach(row => {
+                const amountInput = row.querySelector('td:nth-child(7) input');
+                const amount = parseCurrency(amountInput.value);
+                subtotal += amount;
+            });
+            
+            const taxRate = parseFloat(document.getElementById('tax-rate').value) || 0;
+            const taxAmount = subtotal * (taxRate / 100);
+            const grandTotal = subtotal + taxAmount;
+            
+            document.getElementById('subtotal').value = formatCurrency(subtotal);
+            document.getElementById('tax-amount').value = formatCurrency(taxAmount);
+            document.getElementById('grand-total').value = formatCurrency(grandTotal);
+        }
+
+        // Format date with slashes
+        function formatDate(input) {
+            // Remove any non-digit characters
+            let value = input.value.replace(/\D/g, '');
+            
+            // Format as MM/DD/YYYY
+            if (value.length > 0) {
+                // For single digit, don't add slash yet (could be first digit of a double-digit month)
+                if (value.length === 1) {
+                    input.value = value;
+                }
+                // For double-digit month, add slash
+                else if (value.length === 2) {
+                    input.value = value + '/';
+                } 
+                // For month plus single digit of day, don't add slash yet
+                else if (value.length === 3) {
+                    input.value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                // For month plus double-digit day, add slash
+                else if (value.length === 4) {
+                    input.value = value.substring(0, 2) + '/' + value.substring(2) + '/';
+                } 
+                // Handle year
+                else {
+                    input.value = value.substring(0, 2) + '/' + value.substring(2, 4) + '/' + value.substring(4, Math.min(8, value.length));
+                }
+            }
+        }
+
+        // Set current date as default and calculate valid until date (30 days from now)
+        window.onload = function() {
+            const today = new Date();
+            const validUntil = new Date(today);
+            validUntil.setDate(validUntil.getDate() + 30);
+            
+            const dateString = (today.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                              today.getDate().toString().padStart(2, '0') + '/' + 
+                              today.getFullYear();
+            
+            const validUntilString = (validUntil.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                                    validUntil.getDate().toString().padStart(2, '0') + '/' + 
+                                    validUntil.getFullYear();
+            
+            // Set only quote date to current date, leave valid until date as placeholder
+            const dateInputs = document.querySelectorAll('.quote-details-row input[placeholder="MM/DD/YYYY"]');
+            // Only set the first date input (quote date) to current date
+            if (dateInputs.length > 0) {
+                dateInputs[0].value = dateString;
+            }
+            
+            // Add date formatting to all date inputs
+            document.querySelectorAll('input[placeholder="MM/DD/YYYY"]').forEach(input => {
+                input.addEventListener('input', function() {
+                    formatDate(this);
+                });
+            });
+            
+            // Initialize currency formatting for existing values
+            document.querySelectorAll('#quote-items tbody tr').forEach(row => {
+                const rateInput = row.querySelector('td:nth-child(6) input');
+                const amountInput = row.querySelector('td:nth-child(7) input');
+                
+                if (rateInput.value && !rateInput.value.includes('$')) {
+                    rateInput.value = formatCurrency(parseFloat(rateInput.value) || 0);
+                }
+                
+                if (amountInput.value && !amountInput.value.includes('$')) {
+                    amountInput.value = formatCurrency(parseFloat(amountInput.value) || 0);
+                }
+            });
+            
+            // Initialize totals with currency formatting
+            calculateTotals();
+            
+            // Add PDF export functionality
+            document.getElementById('print-pdf').addEventListener('click', function() {
+                // Hide the print button before printing
+                this.style.display = 'none';
+                document.getElementById('email-quote').style.display = 'none';
+                
+                // Get the quote number for the filename
+                const quoteNumber = document.querySelector('.quote-details-row input[placeholder="Quote Number"]').value || 'XXX';
+                
+                // Set the document title to be used as the default filename
+                document.title = `Quote-${quoteNumber}`;
+                
+                // Use browser print functionality to save as PDF
+                window.print();
+                
+                // Show the button again after printing dialog is closed
+                setTimeout(() => {
+                    this.style.display = 'inline-block';
+                    document.getElementById('email-quote').style.display = 'inline-block';
+                    
+                    // Reset the document title
+                    document.title = "Quote - Frank Foremny Jr Inc";
+                }, 1000);
+            });
+            
+            // Add email functionality
+            document.getElementById('email-quote').addEventListener('click', function() {
+                // Get quote number and client name
+                const quoteNumber = document.querySelector('.quote-details-row input').value || '#';
+                const clientName = document.querySelector('.bill-to input').value || 'Client';
+                
+                // Create mailto link with pre-filled information
+                const subject = `Quote ${quoteNumber} from Frank Foremny Jr Inc`;
+                const body = `Dear ${clientName},\n\nPlease find attached the quote from Frank Foremny Jr Inc.\n\nThank you for considering our services.\n\nSincerely,\nFrank\n\n\nFrank Foremny Jr Inc\nP.O. Box 283\nGoshen, NY 10924\n(845) 590-7695\nfrankforemnyjrinc@gmail.com`;
+                
+                // Encode the subject and body for the mailto link
+                const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                
+                // Open the default email client
+                window.location.href = mailtoLink;
+            });
+        };
+    </script>
+</body>
+</html>
